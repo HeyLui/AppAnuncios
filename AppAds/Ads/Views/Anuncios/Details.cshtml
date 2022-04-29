@@ -1,0 +1,553 @@
+﻿@model Ads.Models.Anuncio
+@using Microsoft.AspNetCore.Http;
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Open+Sans:wght@300;400;600&display=swap" rel="import" />
+@{
+    Layout = null;
+
+    <style>
+
+                :root {
+                    --font-primary: "Open Sans", sans-serif;
+                    --font-heading: "DM Sans", sans-serif;
+                    --size-base: 1.5rem;
+                    --size-sm: 1.4rem;
+                    --size-min: 1.1rem;
+                    --size-mid: 1.5rem;
+                    --size-large: 2.4rem;
+                    --size-header: clamp(2.8rem, 0.6rem + 1.6vw, 3.2rem);
+                    --color-primary: #363636;
+                    --color-inverted: #ffffff;
+                    --color-accent: #8f29e0;
+                    --grey: #ebe9f5;
+                    --grey-light: #faf9ff;
+                }
+
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                    position: relative;
+                }
+
+                html {
+                    font-size: 10px;
+                    font-family: var(--font-primary);
+                    color: var(--color-primary);
+                }
+
+                body {
+                    font-size: var(--size-base);
+                    width: 90%;
+                    max-width: 80rem;
+                    margin: auto;
+                    padding: 4rem 0 2rem 0;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2.4rem;
+                }
+
+                h1 {
+                    font-family: var(--font-heading);
+                    font-size: var(--size-header);
+                    line-height: 140%;
+                }
+
+                h2 {
+                    font-family: var(--font-heading);
+                    font-size: var(--size-large);
+                    line-height: 180%;
+                }
+
+                p {
+                    line-height: 200%;
+                }
+
+                    p + p {
+                        margin-top: 1.2rem;
+                    }
+
+                .text--size-min {
+                    font-size: var(--size-min);
+                }
+
+                .button {
+                    padding: 0.4rem 1rem;
+                    border: none;
+                    background: var(--color-accent);
+                    color: var(--color-inverted);
+                    border-radius: 0.2rem;
+                }
+
+                .button--flat {
+                    background: none;
+                    border: none;
+                    color: inherit;
+                }
+
+                figure {
+                    padding: 0.8rem 0;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 0.4rem;
+                }
+
+                figcaption {
+                    font-size: var(--size-min);
+                }
+
+                img {
+                    display: block;
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+
+                .input {
+                    border: 0.1rem solid var(--grey);
+                    height: 2.8rem;
+                }
+
+                .hidden--mobile {
+                    display: none;
+                }
+                /**/
+                header,
+                .menu-items,
+                .menu--all {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+
+                .menu-items,
+                .menu--all {
+                    gap: 2rem;
+                    list-style: none;
+                    font-size: var(--size-base);
+                }
+
+                .menu--all {
+                    display: none;
+                }
+
+                article {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 3.6rem;
+                }
+
+                .article-content {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .wrapper-action {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    gap: 1.2rem;
+                }
+
+                .subscribe {
+                    padding: 1.2rem 0;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.8rem;
+                }
+
+                footer {
+                    width: 100%;
+                    text-align: center;
+                }
+                /**/
+                header * {
+                    font-size: var(--font-heading);
+                    font-weight: 700;
+                    line-height: 160%;
+                }
+
+                .logo {
+                    display: inline-block;
+                    font-size: var(--size-mid);
+                }
+
+                figure.banner-img img {
+                    width: 100%;
+                    max-height: 60vh;
+                    object-fit: cover;
+                }
+
+                section {
+                    padding: 2rem 0;
+                }
+
+                .section--text {
+                    margin-top: 1.6rem
+                }
+
+                .wrapper-action button {
+                    font-size: 1.8rem;
+                }
+
+                .newsletter {
+                    padding: 1.6rem;
+                    background: var(--grey-light);
+                    border-radius: 0.4rem;
+                }
+                /**/
+                @@media screen and (min-width: 48rem) {
+                    .hidden--mobile {
+                        display: block;
+                    }
+
+                    .menu-hidden {
+                        display: none;
+                    }
+
+                    .menu--all {
+                        display: flex;
+                    }
+
+                    .article-content {
+                        display: grid;
+                        grid-template-columns: repeat(5, 1fr);
+                        grid-auto-flow: row dense;
+                    }
+
+                    .article-actions {
+                        grid-column: 1 / 2;
+                        position: relative;
+                    }
+
+                    .article-body {
+                        grid-column: 2 / -1;
+                    }
+
+                    .wrapper-action {
+                        width: 100%;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 1.2rem;
+                        position: sticky;
+                        top: 2rem;
+                    }
+
+                    .newsletter {
+                        padding: 1.6rem 10%;
+                    }
+
+                    .subscribe {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: nowrap;
+                        gap: 0;
+                    }
+
+                    .input {
+                        flex-grow: 2;
+                        border-radius: 0.2rem 0 0 0.2rem;
+                    }
+
+                    .button.button-subscribe {
+                        border-radius: 0 0.2rem 0.2rem 0;
+                    }
+                    .rating {
+                        position: initial;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        width: 150px;
+                        height: 30px;
+                        padding: 5px 0px;
+                        margin: auto;
+                        border-radius: 30px;
+                        background: #FFF;
+                        display: block;
+                        overflow: hidden;
+                        box-shadow: 0 1px #CCC, 0 5px #DDD, 0 9px 6px -3px #999;
+                        unicode-bidi: bidi-override;
+                        direction: rtl;
+                    }
+
+                        .rating:not(:checked) > input {
+                            display: none;
+                        }
+
+                    /* - - - - - RATE */
+                    #rate {
+                        top: -65px;
+                    }
+
+                        #rate:not(:checked) > label {
+                            cursor: pointer;
+                            float: right;
+                            width: 30px;
+                            height: 30px;
+                            display: block;
+                            color: rgba(0, 135, 211, .4);
+                            line-height: 33px;
+                            text-align: center;
+                        }
+
+                            #rate:not(:checked) > label:hover,
+                            #rate:not(:checked) > label:hover ~ label {
+                                color: rgba(0, 135, 211, .6);
+                            }
+
+                        #rate > input:checked + label:hover,
+                        #rate > input:checked + label:hover ~ label,
+                        #rate > input:checked ~ label:hover,
+                        #rate > input:checked ~ label:hover ~ label,
+                        #rate > label:hover ~ input:checked ~ label {
+                            color: rgba(0, 135, 211, .8);
+                        }
+
+                        #rate > input:checked ~ label {
+                            color: rgb(0, 135, 211);
+                        }
+                    
+                }
+    </style>
+
+
+    ViewData["Title"] = "Details";
+}
+
+<header>
+    <a class="logo" asp-area="" asp-controller="Anuncios" asp-action="Index">ANUNCIOS</a>
+    @if (Context.Session.GetString("usuariodata") != null)
+    {
+        <a class="logo">HOLA! @Context.Session.GetString("usuariodata")</a>
+
+    }
+    else
+    {
+        <b>-</b>
+    }
+    <nav class="menu">
+        <ul class="menu-items">
+            <div class="menu--all">
+                <li class="menu-item"></li>
+                <li class="menu-item"></li>
+                <li class="menu-item"></li>
+            </div>
+            @if (Context.Session.GetString("usuariodata") != null)
+            {
+                <form method="post" enctype="multipart/form-data" action="/Tusers/Desconectarse">
+                    <li class="menu-item button">
+                        <input  style="background-color:mediumpurple;" type="submit" value="DESCONECTARSE" />
+                    </li>
+                </form>
+
+            }
+            else
+            {
+                 <li class="menu-item button"><a class="logo" asp-area="" asp-controller="Home" asp-action="Index">Iniciar Sesion</a></li>
+            }
+            
+            <button class="button--flat menu-hidden"><i class="fas fa-bars"></i></button>
+        </ul>
+    </nav>
+</header>
+<article>
+    <figure class="banner-img">
+        <img src="@Url.Action("convertirImagen","Anuncios",new { codigo = Model.IdAd, img = 1 })" alt="Art Wallpaper">
+        <figcaption>@Html.DisplayFor(model => model.IdTipoadNavigation.CategoriaName)</figcaption>
+    </figure>
+    <div class="article-content">
+        <div class="article-body " style="margin-left:30px;">
+            <h1>@Html.DisplayFor(model => model.NombreAd) - <div class="stars" data-percent="90" style="background-color:gray"></div> </h1>
+
+            @if (Context.Session.GetString("roluser") == "2")
+            {
+                <a class="button" style="background-color:lightslategrey;color:white;" asp-action="Edit" asp-route-id="@Model.IdAd">Editar</a><b>|</b>
+                <a class="button" style="background-color: lightcoral; color: white;" asp-action="Delete" asp-route-id="@Model.IdAd">Eliminar</a>
+            }
+            else
+            {
+                <b>-</b>
+            }
+
+
+
+
+            <section>
+                <p>@Html.DisplayFor(model => model.Descripcion)</p>
+                <p>@*Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?*@</p>
+            </section>
+            @*<section>
+            <h2>Lorem ipsum dolor sit amet</h2>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+            <figure>
+                <img src="https://images.unsplash.com/photo-1438012940875-4bf705025a8a?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzR8fGFydHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" alt="Art Wallpaper">
+                <figcaption>Art Wallpaper</figcaption>
+            </figure>
+        </section>
+        <section>
+            <h2>Lorem ipsum dolor sit amet</h2>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+            <figure>
+                <img src="https://images.unsplash.com/photo-1438012940875-4bf705025a8a?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzR8fGFydHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" alt="Art Wallpaper">
+                <figcaption>Art Wallpaper</figcaption>
+            </figure>
+        </section>
+        <section>
+            <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+        </section>*@
+        </div>
+        <aside class="article-actions">
+            <div class="wrapper-action">
+                <h3>QUE TE PARECIO ESTE ANUNCIO</h3>
+                
+                <form method="post" enctype="multipart/form-data" asp-controller="Anuncios" asp-action="Votacion">
+
+                    <input name="idad" value="@Html.DisplayFor(model => model.IdAd)" hidden />
+                    <input name="id" value="@Context.Session.GetString("usuarioidrec")" hidden />
+                    <!-- RATE -->
+                    @if (ViewBag.yaya != null)
+                    {
+                        
+                            
+                            <input disabled value="YA HAS VOTADO " class="button" />
+                        
+                    }
+                    else if (ViewBag.yaya == null)
+                    {
+                        <div class="container" style="float:none;">
+                            <section id="rate" class="rating">
+                                <!-- FIFTH STAR -->
+                                <input type="radio" id="star_5" name="voto" value="100" />
+                                <label for="star_5" title="Increible">&#9733;</label>
+                                <!-- FOURTH STAR -->
+                                <input type="radio" id="star_4" name="voto" value="80" />
+                                <label for="star_4" title="Muy bueno">&#9733;</label>
+                                <!-- THIRD STAR -->
+                                <input type="radio" id="star_3" name="voto" value="60" />
+                                <label for="star_3" title="Bueno">&#9733;</label>
+                                <!-- SECOND STAR -->
+                                <input type="radio" id="star_2" name="voto" value="40" />
+                                <label for="star_2" title="Malo">&#9733;</label>
+                                <!-- FIRST STAR -->
+                                <input type="radio" id="star_1" name="voto" value="20" />
+                                <label for="star_1" title="Muy malo">&#9733;</label>
+                            </section>
+                            <br />
+                            <input type="submit" value="ENVIAR VALORACION" class="button" />
+                        </div>
+                    }
+
+
+                </form>
+
+
+
+
+                    @*<button class="button--flat"><i class="far fa-heart"></i></button>
+            <button class="button--flat"><i class="far fa-comment"></i></button>
+            <p class="text--size-min hidden--mobile section--text">Share</p>
+            <button class="button--flat"><i class="fab fa-facebook-f"></i></button>
+            <button class="button--flat"><i class="fab fa-twitter"></i></button>
+            <button class="button--flat"><i class="fas fa-link"></i></button>
+            <p>*@
+
+            </div>
+        </aside>
+    </div>
+</article>
+<aside class="newsletter">
+    <h2>SUSCRIBETE A ESTE ARTICULO</h2>
+    <p>Quieres recibir correos de este articulo te enviaremos actualizaciones de esta publicacion a tu correo</p>
+    <form class="subscribe">
+        <input type="text" class="input" />
+        <input class="button button--subscribe" type="submit" value="Suscribirse" />
+    </form>
+</aside>
+<footer class="text--size-min">The Art Blog © 2021</footer>
+
+@*<div class="article">
+        <div class="article__image"></div>
+
+        <div class="article__content">
+            <div class="article__text">
+                <h2>
+                    @Html.DisplayFor(model => model.NombreAd)
+                </h2>
+                <p>
+                    @Html.DisplayFor(model => model.Descripcion)
+                </p>
+            </div>
+
+            <div class="article__details">
+                <div class="article__member">
+                    <img src="@Url.Action("convertirImagen","Anuncios",new { codigo = Model.IdAd, img = 1 })" alt="Avatar Michelle">
+                    <div class="member__info">
+                        <h4 class="member__info-name">-------</h4>
+                        <span class="member__info-date">28 Jun 2020</span>
+                    </div>
+                </div>
+
+                <div class="article__share">
+                    <span>Share</span>
+                    <div class="article__share-icons">
+                        <a href="#"><i class='bx bxl-facebook-square'></i></a>
+                        <a href="#"><i class='bx bxl-twitter'></i></a>
+                        <a href="#"><i class='bx bxl-pinterest'></i></a>
+                    </div>
+                </div>
+
+                <button class="article__Share-btn">
+                    <i class='bx bxs-share'></i>
+                </button>
+            </div>
+        </div>
+    </div>*@
+
+
+
+
+@*<h1>Details</h1>
+
+    <div>
+        <h4>Anuncio</h4>
+        <hr />
+        <dl class="row">
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.NombreAd)
+            </dt>
+            <dd class = "col-sm-10">
+
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+            <dd class = "col-sm-10">
+
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Imagen)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Imagen)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Calificacion)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Calificacion)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.IdTipoadNavigation)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.IdTipoadNavigation.IdTipoad)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.IdAd">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>*@
